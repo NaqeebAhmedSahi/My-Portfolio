@@ -182,14 +182,15 @@ export const Education = () => {
           paddingLeft: { xs: '20px', md: '100px' },
           marginTop: '40px'
         }}>
-          {/* Vertical line */}
-          <motion.div
-            style={{
+          {/* Vertical line, centered on the timeline markers */}
+          <Box
+            sx={{
               position: 'absolute',
-              top: 0,
-              bottom: 0,
+              top: '52px',
+              bottom: '72px',
+              left: { xs: '14px', md: '54px' },
               width: '4px',
-              background: theme.palette.background.paper,
+              background: `${theme.palette.primary.main}33`,
               borderRadius: '2px',
               zIndex: 1
             }}
@@ -205,7 +206,7 @@ export const Education = () => {
                 borderRadius: '2px',
               }}
             />
-          </motion.div>
+          </Box>
 
           {/* Education items */}
           {educationData.map((edu, index) => (

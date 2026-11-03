@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Box, Typography, Grid, useTheme } from '@mui/material';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useThemeContext } from '@/app/theme/ThemeProvider';
@@ -9,30 +9,45 @@ import {
   SiExpress, SiMongodb, SiPostgresql, SiPython, SiDjango,
   SiTensorflow, SiPhp, SiLaravel, SiGit, SiGithub,
   SiDocker, SiFirebase, SiGraphql, SiRedux, SiSass,
-  SiTailwindcss, SiFigma, SiAdobexd
+  SiTailwindcss, SiFigma, SiAdobexd, SiElectron, SiMysql,
+  SiAmazons3, SiAwsamplify, SiOpenai, SiLangchain, SiGooglegemini
 } from 'react-icons/si';
+import { VscAzure } from 'react-icons/vsc';
+import { TbFileTextAi, TbVector } from 'react-icons/tb';
 
 export const Skills = () => {
   const theme = useTheme();
   const { darkMode } = useThemeContext();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [0, 400], [5, -5]);
   const rotateY = useTransform(x, [0, 400], [-5, 5]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      });
-      x.set(e.clientX - rect.left);
-      y.set(e.clientY - rect.top);
-    }
+    const container = containerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    x.set(mx);
+    y.set(my);
+    container.style.setProperty('--mx', `${mx}px`);
+    container.style.setProperty('--my', `${my}px`);
   };
+
+  const floatingDots = useMemo(
+    () =>
+      Array.from({ length: 12 }, () => ({
+        size: Math.random() * 80 + 40,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        driftX: Math.random() * 80 - 40,
+        driftY: Math.random() * 80 - 40,
+        duration: Math.random() * 18 + 14,
+      })),
+    []
+  );
 
   const skillCategories = [
     {
@@ -44,6 +59,7 @@ export const Skills = () => {
         { name: "Next.js", icon: <SiNextdotjs />, color: "#000000" },
         { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
         { name: "Tailwind", icon: <SiTailwindcss />, color: "#06B6D4" },
+        { name: "Electron", icon: <SiElectron />, color: "#47848F" },
       ]
     },
     {
@@ -62,6 +78,7 @@ export const Skills = () => {
       skills: [
         { name: "MongoDB", icon: <SiMongodb />, color: "#47A248" },
         { name: "PostgreSQL", icon: <SiPostgresql />, color: "#4169E1" },
+        { name: "MySQL", icon: <SiMysql />, color: "#4479A1" },
         { name: "Firebase", icon: <SiFirebase />, color: "#FFCA28" },
       ]
     },
@@ -69,6 +86,11 @@ export const Skills = () => {
       title: "AI/ML",
       skills: [
         { name: "TensorFlow", icon: <SiTensorflow />, color: "#FF6F00" },
+        { name: "OpenAI", icon: <SiOpenai />, color: "#10A37F" },
+        { name: "LangChain", icon: <SiLangchain />, color: "#2DD4BF" },
+        { name: "Gemini", icon: <SiGooglegemini />, color: "#8E75FF" },
+        { name: "RAG", icon: <TbFileTextAi />, color: "#7C3AED" },
+        { name: "Embeddings", icon: <TbVector />, color: "#0EA5E9" },
       ]
     },
     {
@@ -78,6 +100,9 @@ export const Skills = () => {
         { name: "GitHub", icon: <SiGithub />, color: "#181717" },
         { name: "Docker", icon: <SiDocker />, color: "#2496ED" },
         { name: "GraphQL", icon: <SiGraphql />, color: "#E10098" },
+        { name: "Amazon S3", icon: <SiAmazons3 />, color: "#569A31" },
+        { name: "Amplify", icon: <SiAwsamplify />, color: "#FF9900" },
+        { name: "Azure", icon: <VscAzure />, color: "#0078D4" },
       ]
     },
     {
@@ -108,25 +133,25 @@ export const Skills = () => {
       }}
     >
       {/* Floating gradient dots */}
-      {[...Array(20)].map((_, i) => (
+      {floatingDots.map((dot, i) => (
         <motion.div
           key={i}
           style={{
             position: 'absolute',
-            width: `${Math.random() * 100 + 50}px`,
-            height: `${Math.random() * 100 + 50}px`,
+            width: dot.size,
+            height: dot.size,
             borderRadius: '50%',
             background: `radial-gradient(circle, ${theme.palette.primary.main}20, transparent)`,
             opacity: 0.1,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
+            top: `${dot.top}%`,
+            left: `${dot.left}%`,
           }}
           animate={{
-            y: [0, Math.random() * 100 - 50],
-            x: [0, Math.random() * 100 - 50],
+            y: [0, dot.driftY],
+            x: [0, dot.driftX],
           }}
           transition={{
-            duration: Math.random() * 20 + 10,
+            duration: dot.duration,
             repeat: Infinity,
             repeatType: 'reverse',
             ease: 'easeInOut',
@@ -206,7 +231,6 @@ export const Skills = () => {
                     transformStyle: 'preserve-3d',
                     rotateX,
                     rotateY,
-                    transition: 'transform 0.15s ease-out'
                   }}
                   whileHover={{ scale: 1.03 }}
                 >
@@ -217,7 +241,7 @@ export const Skills = () => {
                       inset: 0,
                       borderRadius: '24px',
                       padding: '2px',
-                      background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, 
+                      background: `radial-gradient(circle at var(--mx, 50%) var(--my, 50%), 
                         ${theme.palette.primary.main}80, transparent 70%)`,
                       WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                       WebkitMaskComposite: 'xor',
@@ -368,97 +392,30 @@ export const Skills = () => {
             Technologies Ive Worked With
           </Typography>
 
-          <motion.div
-            style={{
+          <Box
+            sx={{
               display: 'flex',
-              width: 'max-content'
-            }}
-            animate={{
-              x: ['0%', '-50%']
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-            whileHover={{
-              transition: {
-                duration: 2,
-                ease: [0.33, 1, 0.68, 1] // Smooth deceleration curve
-              }
+              width: 'max-content',
+              animation: 'skills-marquee 40s linear infinite',
+              willChange: 'transform',
+              '@keyframes skills-marquee': {
+                from: { transform: 'translate3d(0, 0, 0)' },
+                to: { transform: 'translate3d(-50%, 0, 0)' },
+              },
             }}
           >
-            {duplicatedIcons.map((item, index) => ( // Changed 'skill' to 'item' for clarity
-              <motion.div
+            {duplicatedIcons.map((item, index) => (
+              <Box
                 key={`${item.name}-${index}`}
-                style={{
+                sx={{
                   margin: '0 20px',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
                   minWidth: '80px',
-                  position: 'relative'
-                }}
-                whileHover={{
-                  scale: 1.5,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 400,
-                    damping: 10
-                  }
                 }}
               >
-                {/* Glowing background effect */}
-                <motion.div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    borderRadius: '50%',
-                    background: `radial-gradient(circle, ${item.color}60, transparent 70%)`,
-                    opacity: 0,
-                    scale: 0.8
-                  }}
-                  whileHover={{
-                    opacity: [0, 0.8, 0],
-                    scale: [0.8, 1.2, 1],
-                    transition: {
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: 'easeInOut'
-                    }
-                  }}
-                />
-
-                {/* Pulsing shadow effect */}
-                <motion.div
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: item.color,
-                    filter: 'blur(15px)',
-                    opacity: 0,
-                    x: '-50%',
-                    y: '-50%'
-                  }}
-                  whileHover={{
-                    opacity: [0, 0.3, 0],
-                    scale: [0.8, 1, 1.2],
-                    transition: {
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut'
-                    }
-                  }}
-                />
-
                 <Box sx={{
                   fontSize: '48px',
                   color: item.color,
@@ -466,9 +423,6 @@ export const Skills = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   mb: 1,
-                  position: 'relative',
-                  zIndex: 1,
-                  textShadow: `0 0 10px ${item.color}80`
                 }}>
                   {item.icon}
                 </Box>
@@ -478,15 +432,13 @@ export const Skills = () => {
                     fontWeight: 'medium',
                     color: theme.palette.text.secondary,
                     textAlign: 'center',
-                    position: 'relative',
-                    zIndex: 1
                   }}
                 >
                   {item.name}
                 </Typography>
-              </motion.div>
+              </Box>
             ))}
-          </motion.div>
+          </Box>
         </Box>
       </Box>
     </Box>

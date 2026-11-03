@@ -7,80 +7,85 @@ import { useThemeContext } from '@/app/theme/ThemeProvider';
 import { FaPlay, FaTimes, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
 
-// Updated project data with video URLs
-const projectsData = [
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+  video?: string;
+  github?: string;
+  live?: string;
+  featured?: boolean;
+};
+
+const projectsData: Project[] = [
   {
     id: 1,
-    title: "Seemed Footcare",
+    title: "BitStage",
+    featured: true,
     description: `<p>
-      A modern medical website built with <span class="font-bold" style="color: #2563eb">Next.js</span> with backend connecting with <span class="font-bold" style="color: #16a34a">MongoDB</span> that scrapes and aggregates data from multiple online sources to showcase healthcare products. Features <span class="font-bold">dynamic routing</span>, email integration using <span class="font-bold" style="color: #9333ea">EmailJS</span>, and a clean, responsive design.
+      Hiring platform for hospitality roles. Candidates complete a live <span class="font-bold" style="color: #2563eb">AI rehearsal</span> of the actual job, a recruiter reviews the evidence, and employers receive one recruiter-verified <span class="font-bold">BitScore</span> with video and transcripts. I built the <span class="font-bold" style="color: #0ea5e9">React</span> and <span class="font-bold" style="color: #6366f1">Vite</span> product — candidate, client, and recruiter portals — on a <span class="font-bold" style="color: #16a34a">Django</span> API, deployed on AWS Amplify.
     </p>`,
-    tags: ["Next.js", "EmailJS", "Web Scraping", "Dynamic Routing"],
-    image: "images/image1.png", // Replace with your own image if available
-    video: "/Videos/firstVideo.mp4", // Replace with your video link if available
-    github: "https://github.com/your-username/medical-aggregator", // Replace with your GitHub link
-    live: "https://seemedfootcare.com" // Replace with your live website link
+    tags: ["React", "TypeScript", "Vite", "Django"],
+    image: "/images/projects/bitstage.jpg",
+    live: "https://bitstage.ai"
   },
   {
     id: 2,
-    title: "My Portfolio",
+    title: "BSA — Barnes Signal Advisor",
     description: `<p>
-    A sleek personal portfolio built with <span class="font-bold" style="color: #2563eb">Next.js</span>, featuring smooth animations powered by <span class="font-bold" style="color: #6366f1">Framer Motion</span> and modern UI components from <span class="font-bold" style="color: #0ea5e9">Material UI</span>. Includes a functional contact form integrated using <span class="font-bold" style="color: #16a34a">Nodemailer</span> for email communication. Designed to showcase projects, skills, and contact info in a responsive and engaging layout.
-  </p>`,
-    tags: ["Next.js", "Framer Motion", "Material UI", "Nodemailer"],
-    image: "images/image2.png", // Replace with your actual image path
-    video: "/Videos/secondVideo.mp4", // Replace with your actual video path
-    github: "https://github.com/your-username/portfolio", // Replace with your actual GitHub repo
-    live: "https://your-portfolio-domain.com" // Replace with your deployed portfolio URL
+      GEO studio for Barnes Signal Advisor. The site helps a business get read, quoted, and recommended by <span class="font-bold">ChatGPT, Gemini, and Perplexity</span>. It includes a free Signal Score audit, public pricing, and a WordPress GEO plugin, built with <span class="font-bold" style="color: #2563eb">React</span>, <span class="font-bold" style="color: #6366f1">Vite</span>, and a <span class="font-bold" style="color: #16a34a">Python</span> audit engine.
+    </p>`,
+    tags: ["React", "TypeScript", "Vite", "Python"],
+    image: "/images/projects/bsa.png",
+    live: "https://barnessignaladvisor.com"
   },
-
-  // {
-  //   id: 3,
-  //   title: "AI Image Generator",
-  //   description: "Web application that generates images from text prompts using machine learning models.",
-  //   tags: ["Python", "TensorFlow", "Flask", "React"],
-  //   image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80",
-  //   video: "https://example.com/videos/ecommerce-demo.mp4",
-  //   github: "#",
-  //   live: "#"
-  // },
-  // {
-  //   id: 4,
-  //   title: "Social Media Dashboard",
-  //   description: "Analytics dashboard for social media metrics with real-time data visualization.",
-  //   tags: ["React", "GraphQL", "D3.js", "Node.js"],
-  //   image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
-  //   video: "https://example.com/videos/ecommerce-demo.mp4",
-  //   github: "#",
-  //   live: "#"
-  // },
-  // {
-  //   id: 5,
-  //   title: "Health & Fitness Tracker",
-  //   description: "Mobile-first application for tracking workouts, nutrition, and health metrics.",
-  //   tags: ["React Native", "Firebase", "Redux", "Expo"],
-  //   image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-  //   video: "https://example.com/videos/ecommerce-demo.mp4",
-  //   github: "#",
-  //   live: "#"
-  // },
-  // {
-  //   id: 6,
-  //   title: "Real Estate Platform",
-  //   description: "Property listing platform with map integration, advanced filters, and virtual tours.",
-  //   tags: ["Next.js", "Mapbox", "MongoDB", "Node.js"],
-  //   image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80",
-  //   video: "https://example.com/videos/ecommerce-demo.mp4",
-  //   github: "#",
-  //   live: "#"
-  // }
+  {
+    id: 3,
+    title: "KyMed",
+    description: `<p>
+      Catalog site for an ISO 13485 surgical and dental instruments manufacturer in Sialkot. Product categories, OEM and private-label pages, and a shop built with <span class="font-bold" style="color: #2563eb">Next.js</span>, <span class="font-bold" style="color: #0ea5e9">TypeScript</span>, <span class="font-bold" style="color: #16a34a">MongoDB</span>, and Tailwind CSS. Ships to hospitals and distributors in the USA, UK, UAE, and Europe.
+    </p>`,
+    tags: ["Next.js", "TypeScript", "MongoDB", "Tailwind"],
+    image: "/images/projects/kymed.png",
+    live: "https://kymed.co"
+  },
+  {
+    id: 4,
+    title: "Saluvia Industries",
+    description: `<p>
+      B2B site for electrosurgical instruments: bipolar and monopolar forceps, electrodes, pencils, and cables. Buyers browse by category and request a quote. Built with <span class="font-bold" style="color: #2563eb">Next.js</span> App Router, <span class="font-bold" style="color: #0ea5e9">TypeScript</span>, Tailwind CSS, and <span class="font-bold" style="color: #6366f1">Framer Motion</span>. ISO 13485 and ISO 9001 manufacturing.
+    </p>`,
+    tags: ["Next.js", "TypeScript", "Tailwind", "Framer Motion"],
+    image: "/images/projects/saluvia.jpg",
+    live: "https://saluviaindustries.com"
+  },
+  {
+    id: 5,
+    title: "Efforts Frontline",
+    description: `<p>
+      Public site for Efforts Frontline Organization, an NGO working with communities in Sindh. Pages cover programs, impact, stories, water projects, and donations, with a <span class="font-bold" style="color: #2563eb">PHP</span> and <span class="font-bold" style="color: #16a34a">MySQL</span> admin protected by a password and authenticator code.
+    </p>`,
+    tags: ["PHP", "MySQL", "HTML", "CSS"],
+    image: "/images/projects/frontline.jpg"
+  },
+  {
+    id: 6,
+    title: "BWS Vittoria",
+    description: `<p>
+      Desktop app for executive search. Recruiters intake CVs, run OCR and AI enrichment, score candidates, and track mandates, firms, placements, and invoices. Built as an offline-first <span class="font-bold" style="color: #47848F">Electron</span> app with <span class="font-bold" style="color: #2563eb">React</span>, <span class="font-bold" style="color: #6366f1">Vite</span>, and a local <span class="font-bold" style="color: #4169E1">PostgreSQL</span> database.
+    </p>`,
+    tags: ["Electron", "React", "Vite", "PostgreSQL"],
+    image: "/images/projects/vittoria.jpg"
+  }
 ];
 
 export const Projects = () => {
   const theme = useTheme();
   const { darkMode } = useThemeContext();
   const containerRef = useRef<HTMLDivElement>(null!);
-  const [selectedProject, setSelectedProject] = useState<typeof projectsData[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const { scrollYProgress } = useScroll({
@@ -90,7 +95,7 @@ export const Projects = () => {
 
   const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
-  const openVideoModal = (project: typeof projectsData[0]) => {
+  const openVideoModal = (project: Project) => {
     setSelectedProject(project);
     setIsPlaying(true);
   };
@@ -285,7 +290,10 @@ export const Projects = () => {
                           opacity: 1
                         }
                       }}
-                      onClick={() => openVideoModal(project)}
+                      onClick={() => {
+                        if (project.video) openVideoModal(project);
+                      }}
+                      style={{ cursor: project.video ? 'pointer' : 'default' }}
                     >
                       <Box
                         component="img"
@@ -293,10 +301,11 @@ export const Projects = () => {
                         alt={project.title}
                         sx={{
                           width: '100%',
-                          height: 'auto',
+                          aspectRatio: '16 / 9',
                           objectFit: 'cover',
                           transition: 'transform 0.5s ease',
-                          display: 'block'
+                          display: 'block',
+                          background: darkMode ? '#111' : '#e8e8e8'
                         }}
                       />
                       {/* Gradient overlay */}
@@ -311,9 +320,8 @@ export const Projects = () => {
                         }}
                         className="play-button"
                       />
-                      {/* Play button */}
+                      {project.video && (
                       <motion.div
-
                         initial={{ opacity: 0.8 }}
                         whileHover={{ scale: 1.1, opacity: 1 }}
                         transition={{ type: 'spring', stiffness: 400 }}
@@ -335,6 +343,7 @@ export const Projects = () => {
                       >
                         <FaPlay size={32} color="#fff" />
                       </motion.div>
+                      )}
                       {/* Tags */}
                       <Box
                         sx={{
@@ -381,6 +390,19 @@ export const Projects = () => {
                       flexDirection: 'column',
                       justifyContent: 'center'
                     }}>
+                      {project.featured && (
+                        <Chip
+                          label="Main project"
+                          size="small"
+                          sx={{
+                            mb: 1.5,
+                            alignSelf: 'flex-start',
+                            fontWeight: 700,
+                            color: '#fff',
+                            background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
+                          }}
+                        />
+                      )}
                       <Typography
                         variant="h3"
                         component="h3"
@@ -388,7 +410,7 @@ export const Projects = () => {
                           fontWeight: 700,
                           mb: 2,
                           color: theme.palette.text.primary,
-                          fontSize: { xs: '1.8rem', md: '2.2rem' }
+                          fontSize: { xs: '1.8rem', md: project.featured ? '2.6rem' : '2.2rem' }
                         }}
                       >
                         {project.title}
@@ -415,6 +437,7 @@ export const Projects = () => {
                       />
 
                       <Box sx={{ display: 'flex', gap: 2 }}>
+                        {project.github && (
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                           <Button
                             variant="contained"
@@ -437,7 +460,9 @@ export const Projects = () => {
                             Code
                           </Button>
                         </motion.div>
+                        )}
 
+                        {project.live && (
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                           <Button
                             variant="outlined"
@@ -462,6 +487,7 @@ export const Projects = () => {
                             Live Demo
                           </Button>
                         </motion.div>
+                        )}
                       </Box>
                     </Box>
                   </motion.div>
@@ -546,7 +572,7 @@ export const Projects = () => {
                 }}
               >
                 <ReactPlayer
-                  url={selectedProject.video}
+                  url={selectedProject.video ?? ''}
                   playing={isPlaying}
                   controls={true}
                   width="100%"

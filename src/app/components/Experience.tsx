@@ -27,9 +27,20 @@ export const Experience = () => {
   const experienceData = [
     {
       id: 1,
+      role: "Full Stack Developer",
+      company: "Code Graphers",
+      period: "Nov 2025 - Present",
+      description: "Building client products in Lahore, including BitStage, Barnes Signal Advisor, KyMed, Saluvia Industries, Efforts Frontline, and BWS Vittoria. Shipping React, Next.js, Vite, and Electron interfaces, Django and PHP backends, and API integrations for hiring, catalogs, NGO sites, and executive search. Data and deploys use PostgreSQL, MySQL, Amazon S3, AWS Amplify, and Azure.",
+      icon: <FaLaptopCode size={24} />,
+      color: "#2563EB",
+      skills: ["React", "Next.js", "TypeScript", "Vite", "Electron", "Django", "PHP", "Node.js", "Tailwind CSS", "PostgreSQL", "MySQL", "Amazon S3", "AWS Amplify", "Azure"],
+      type: "Full-time"
+    },
+    {
+      id: 2,
       role: "Mern Stack Job",
       company: "Robotronics",
-      period: "Feb 2025 - Present",
+      period: "Feb 2025 - Nov 2025",
       description: "Developing and maintaining a SAAS-based e-learning platform similar to Udemy. Handling both the main website and admin dashboard. Implementing features for students to view lectures, take quizzes, and purchase courses. Building responsive UIs with Material UI and Tailwind CSS, and optimizing performance with Vite.",
       icon: <FaLaptopCode size={24} />,
       color: "#00C4CC",
@@ -37,7 +48,7 @@ export const Experience = () => {
       type: "Full-time"
     },
     {
-      id: 2,
+      id: 3,
       role: "Mern Stack Intern",
       company: "Robotronics",
       period: "Nov 2024 - Feb 2025",
@@ -311,14 +322,15 @@ export const Experience = () => {
           position: 'relative',
           paddingLeft: { xs: '20px', md: '100px' }
         }}>
-          {/* Vertical line */}
-          <motion.div
-            style={{
+          {/* Vertical line, centered on the timeline markers */}
+          <Box
+            sx={{
               position: 'absolute',
-              top: 0,
-              bottom: 0,
+              top: '54px',
+              bottom: '74px',
+              left: { xs: '14px', md: '54px' },
               width: '4px',
-              background: theme.palette.background.paper,
+              background: `${theme.palette.primary.main}33`,
               borderRadius: '2px',
               zIndex: 1
             }}
@@ -334,7 +346,7 @@ export const Experience = () => {
                 borderRadius: '2px',
               }}
             />
-          </motion.div>
+          </Box>
 
           {/* Experience items */}
           {filteredExperience.map((exp, index) => (
