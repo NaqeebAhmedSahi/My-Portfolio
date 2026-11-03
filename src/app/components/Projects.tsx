@@ -17,7 +17,7 @@ const projectsData = [
     </p>`,
     tags: ["Next.js", "EmailJS", "Web Scraping", "Dynamic Routing"],
     image: "images/image1.png", // Replace with your own image if available
-    video: "Videos/firstVideo.mp4", // Replace with your video link if available
+    video: "/Videos/firstVideo.mp4", // Replace with your video link if available
     github: "https://github.com/your-username/medical-aggregator", // Replace with your GitHub link
     live: "https://seemedfootcare.com" // Replace with your live website link
   },
@@ -29,7 +29,7 @@ const projectsData = [
   </p>`,
     tags: ["Next.js", "Framer Motion", "Material UI", "Nodemailer"],
     image: "images/image2.png", // Replace with your actual image path
-    video: "Videos/secondVideo.mp4", // Replace with your actual video path
+    video: "/Videos/secondVideo.mp4", // Replace with your actual video path
     github: "https://github.com/your-username/portfolio", // Replace with your actual GitHub repo
     live: "https://your-portfolio-domain.com" // Replace with your deployed portfolio URL
   },
