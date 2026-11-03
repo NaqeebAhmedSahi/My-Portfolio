@@ -267,7 +267,9 @@ export const Certifications = () => {
           gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
           gap: '30px'
         }}>
-          {certificationsData.map((cert, index) => (
+          {certificationsData.map((cert, index) => {
+            const accent = darkMode && cert.color.toLowerCase() === '#000000' ? '#f4f4f5' : cert.color;
+            return (
             <motion.div
               key={cert.id}
               initial={{ opacity: 0, y: 50 }}
@@ -299,7 +301,7 @@ export const Certifications = () => {
                     },
                     '& .cert-badge': {
                       transform: 'scale(1.1) rotate(5deg)',
-                      boxShadow: `0 0 30px ${cert.color}80`
+                      boxShadow: `0 0 30px ${accent}80`
                     }
                   }
                 }}
@@ -313,7 +315,7 @@ export const Certifications = () => {
                     left: 0,
                     width: '0%',
                     height: '100%',
-                    background: cert.color,
+                    background: accent,
                     opacity: 0,
                     transition: 'all 0.5s ease',
                     zIndex: -1
@@ -330,7 +332,7 @@ export const Certifications = () => {
                     height: '0',
                     borderLeft: '50px solid transparent',
                     borderRight: '50px solid transparent',
-                    borderBottom: `50px solid ${cert.color}20`,
+                    borderBottom: `50px solid ${accent}20`,
                     transform: 'rotate(45deg)',
                     filter: 'blur(2px)'
                   }}
@@ -349,11 +351,11 @@ export const Certifications = () => {
                         sx={{
                           width: '80px',
                           height: '80px',
-                          background: `${cert.color}20`,
-                          color: cert.color,
+                          background: `${accent}20`,
+                          color: accent,
                           fontSize: '32px',
-                          border: `2px solid ${cert.color}`,
-                          boxShadow: `0 0 20px ${cert.color}30`
+                          border: `2px solid ${accent}`,
+                          boxShadow: `0 0 20px ${accent}30`
                         }} 
                       >
                         {cert.icon}
@@ -368,7 +370,7 @@ export const Certifications = () => {
                           fontWeight: 700,
                           color: theme.palette.text.primary,
                           mb: 0.5,
-                          background: `linear-gradient(90deg, ${cert.color}, ${theme.palette.secondary.main})`,
+                          background: `linear-gradient(90deg, ${accent}, ${theme.palette.secondary.main})`,
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           display: 'inline-block'
@@ -411,12 +413,12 @@ export const Certifications = () => {
                         <Chip
                           label={skill}
                           sx={{
-                            background: `${cert.color}15`,
+                            background: `${accent}15`,
                             color: theme.palette.text.primary,
                             fontWeight: 500,
-                            border: `1px solid ${cert.color}30`,
+                            border: `1px solid ${accent}30`,
                             '&:hover': {
-                              background: `${cert.color}25`
+                              background: `${accent}25`
                             }
                           }}
                         />
@@ -435,12 +437,12 @@ export const Certifications = () => {
                       variant="outlined"
                       fullWidth
                       sx={{
-                        borderColor: cert.color,
-                        color: cert.color,
+                        borderColor: accent,
+                        color: accent,
                         fontWeight: 600,
                         '&:hover': {
-                          background: `${cert.color}20`,
-                          borderColor: cert.color
+                          background: `${accent}20`,
+                          borderColor: accent
                         }
                       }}
                     >
@@ -450,7 +452,8 @@ export const Certifications = () => {
                 </Box>
               </Box>
             </motion.div>
-          ))}
+            );
+          })}
         </Box>
       </Box>
     </Box>

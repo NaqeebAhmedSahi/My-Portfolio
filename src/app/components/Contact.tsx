@@ -547,7 +547,14 @@ export const Contact = () => {
                       gap: '12px',
                       justifyContent: { xs: 'center', sm: 'flex-start' }
                     }}>
-                      {socialLinks.map((social, i) => (
+                      {socialLinks.map((social, i) => {
+                        const hex = social.color.replace('#', '');
+                        const luminance = hex.length === 6
+                          ? (0.299 * parseInt(hex.slice(0, 2), 16) + 0.587 * parseInt(hex.slice(2, 4), 16) + 0.114 * parseInt(hex.slice(4, 6), 16)) / 255
+                          : 1;
+                        const accent = darkMode && luminance < 0.35 ? '#f4f4f5' : social.color;
+                        const onAccent = accent === '#f4f4f5' ? '#111111' : '#ffffff';
+                        return (
                         <motion.div
                           key={i}
                           variants={itemVariants}
@@ -560,14 +567,14 @@ export const Contact = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             sx={{
-                              background: `${social.color}20`,
-                              color: social.color,
+                              background: `${accent}20`,
+                              color: accent,
                               width: '60px',
                               height: '60px',
                               borderRadius: '12px',
                               '&:hover': {
-                                background: `${social.color}30`,
-                                boxShadow: `0 8px 16px ${social.color}30`
+                                background: `${accent}30`,
+                                boxShadow: `0 8px 16px ${accent}30`
                               },
                               position: 'relative',
                               overflow: 'hidden'
@@ -582,7 +589,7 @@ export const Contact = () => {
                                 left: 0,
                                 right: 0,
                                 height: '4px',
-                                background: social.color,
+                                background: accent,
                                 transform: 'translateY(100%)',
                                 transition: 'transform 0.3s ease',
                               }}
@@ -596,8 +603,8 @@ export const Contact = () => {
                                 left: '50%',
                                 transform: 'translateX(-50%)',
                                 mb: 1,
-                                background: social.color,
-                                color: '#fff',
+                                background: accent,
+                                color: onAccent,
                                 padding: '4px 8px',
                                 borderRadius: '4px',
                                 fontSize: '0.75rem',
@@ -613,7 +620,7 @@ export const Contact = () => {
                                   transform: 'translateX(-50%)',
                                   borderWidth: '4px',
                                   borderStyle: 'solid',
-                                  borderColor: `${social.color} transparent transparent transparent`
+                                  borderColor: `${accent} transparent transparent transparent`
                                 }
                               }}
                               className="tooltip"
@@ -622,7 +629,8 @@ export const Contact = () => {
                             </Box>
                           </IconButton>
                         </motion.div>
-                      ))}
+                        );
+                      })}
                     </Box>
                   </Box>
                 </Box>
